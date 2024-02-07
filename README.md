@@ -64,7 +64,7 @@ Este proceso de ETL es el más breve, ya que se centra en eliminar columnas inne
  
 ## <a name="api">Desarrollo API</a>
 
-API deployada en Railway. Link: https://reqtest-production.up.railway.app/docs#/default/recomendacion_usuario_recomendacion_usuario__usuario__get
+API deployada en Railway. Link: https://henrylab1-production.up.railway.app/docs#/default/recomendacion_usuario_recomendacion_usuario__usuario__get
 
 Tambien se hizo otro deploy en Render, pero en railway al actualizar pip con start.sh
 podia corregir un error de dependencias con Surprise
