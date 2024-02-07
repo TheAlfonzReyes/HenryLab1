@@ -11,7 +11,7 @@ app = FastAPI(title="Alfonso Henry Labs 1 API ML-OPS")
 
 @app.get("/developer/{desarrollador}")
 def developer(desarrollador:str):
-    df = pd.read_json('Dataset_clean/Steam_Games_Limpio.json.gz', compression='gzip')
+    df = pd.read_json('Datasets/Steam_Games_Limpio.json.gz', compression='gzip')
     df = df[['price','developer','release_date']]
     desarrollador = desarrollador.title() #Ponemos como esta en los datasets
 
@@ -57,7 +57,7 @@ def userdata(usuario:str):
 
     user_items = False #Creamos como bandera
 
-    for parteDelDs in pd.read_csv('Dataset_clean/items.csv.gz', chunksize=3000): #Cargamos por partes el dataframe para que Render pueda procesarlo.
+    for parteDelDs in pd.read_csv('Datasets/items.csv.gz', chunksize=3000): #Cargamos por partes el dataframe para que Render pueda procesarlo.
         if usuario in parteDelDs['user_id'].unique(): # Busca si esta en esa porcion del dataframe el usuario
             user_items = parteDelDs
             break
@@ -70,9 +70,9 @@ def userdata(usuario:str):
     user_items = user_items[user_items['user_id'] == usuario] #Filtramos por usuario
 
     #Cargamos los datasets
-    juegos = pd.read_json('Dataset_clean/Steam_Games_Limpio.json.gz', compression='gzip')
+    juegos = pd.read_json('Datasets/Steam_Games_Limpio.json.gz', compression='gzip')
     juegos = juegos[['id','price']]
-    recomendaciones = pd.read_json('Dataset_clean/User_Reviews_Limpio.json.gz', compression='gzip')
+    recomendaciones = pd.read_json('Datasets/User_Reviews_Limpio.json.gz', compression='gzip')
     recomendaciones = recomendaciones[['user_id','recommend']]
 
     # Gurdamos la cantidad de items del usuario
@@ -111,7 +111,7 @@ def userdata(usuario:str):
 def UserForGenre(genero:str):
     
     #Leemos el dataframe
-    df = pd.read_json(r'Dataset_clean/genre.json.gz', compression='gzip', encoding='MacRoman')
+    df = pd.read_json(r'Datasets/genre.json.gz', compression='gzip', encoding='MacRoman')
     genero = genero.capitalize() #Normalizamos el nombre
     
     #Nos fijamos si el genero pedido se encuentra en la lista de generos
@@ -127,7 +127,7 @@ def UserForGenre(genero:str):
 
 @app.get("/best_developer_year/{anio}")
 def best_developer_year(anio:int):
-    developers = pd.read_json('Dataset_clean/Steam_Games_Limpio.json.gz', compression='gzip', encoding='MacRoman')
+    developers = pd.read_json('Datasets/Steam_Games_Limpio.json.gz', compression='gzip', encoding='MacRoman')
     developers = developers[['release_date','id','developer']]
 
     #Verificamos si existe el año pedido.
@@ -136,7 +136,7 @@ def best_developer_year(anio:int):
     else:
         return {'Error':'No hay ningun lanzamiento ese año.'}
 
-    user_reviews = pd.read_json('Dataset_clean/User_Reviews_Limpio.json.gz', compression='gzip')
+    user_reviews = pd.read_json('Datasets/User_Reviews_Limpio.json.gz', compression='gzip')
     user_reviews = user_reviews[['item_id','recommend','sentiment_analysis']]
     user_reviews = user_reviews.merge(developers, left_on='item_id', right_on='id')[['developer','sentiment_analysis','recommend']] # Unimos los datasets para que el manejo sea mas facil
 
@@ -169,7 +169,7 @@ def best_developer_year(anio:int):
 
 @app.get("/developer_reviews_analysis/{desarrollador}")
 def developer_reviews_analysis(desarrollador:str):
-    developers = pd.read_json('Dataset_clean/Steam_Games_Limpio.json.gz', compression='gzip')
+    developers = pd.read_json('Datasets/Steam_Games_Limpio.json.gz', compression='gzip')
     developers = developers[['id','developer']]
     desarrollador = desarrollador.title() #Normalizamos el nombre
 
@@ -179,7 +179,7 @@ def developer_reviews_analysis(desarrollador:str):
     else:
         return {'Error':'No existe el desarrollador'}
 
-    user_reviews = pd.read_json('Dataset_clean/User_Reviews_Limpio.json.gz', compression='gzip')
+    user_reviews = pd.read_json('Datasets/User_Reviews_Limpio.json.gz', compression='gzip')
     user_reviews = user_reviews[['item_id','sentiment_analysis']]
 
     #Unimos los datasets, con inner asi los que no se encuentran en ambos no figuran.
