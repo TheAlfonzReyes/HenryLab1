@@ -69,6 +69,9 @@ API deployada en Railway. Link: https://henrylab1-production.up.railway.app/docs
 
 Link sin tanto hipervinculo: https://henrylab1-production.up.railway.app/docs
 
+
+Pssst Aqui esta el video: https://www.youtube.com/watch?v=D55HObyMN3M&ab_channel=AlfonzReyes
+
 Tambien se hizo otro deploy en Render, pero en railway al actualizar pip con start.sh
 podia corregir un error de dependencias con Surprise
 
